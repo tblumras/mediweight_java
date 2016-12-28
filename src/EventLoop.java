@@ -1,5 +1,7 @@
 import com.yoctopuce.YoctoAPI.*;
 
+import java.util.concurrent.TimeUnit;
+
 
 /**
  * Created by Tina Rasmussen on 28-12-2016.
@@ -8,6 +10,7 @@ public class EventLoop {
 
     private boolean isRunning;
     private WeightController wc;
+    private DisplayController dc;
 
 
     public EventLoop(){
@@ -23,6 +26,7 @@ public class EventLoop {
         }
 
         wc = new WeightController();
+        dc = new DisplayController();
     }
 
     public void runEvent(boolean startRun) {
@@ -31,14 +35,14 @@ public class EventLoop {
 
         while (isRunning) {
             try {
-                Thread.sleep(2000);
+                Thread.sleep(TimeUnit.SECONDS.toMillis(1));
             } catch (Exception e) {
                 System.out.println("Error: " + e.getMessage());
             }
 
             if(wc.isSensorValid()){
-                String currentValue = wc.getWeight();
-                System.out.println(currentValue);
+                ProductHandler ph = wc.getWeight();
+                dc.updateDisplay(ph);
             }else{
                 System.out.println("Sensor is not valid");
             }
