@@ -59,9 +59,17 @@ public class ProductHandler {
             case 0:
                 return 0xff0000;
             case 1:
-                return 0xff6811;
+                return 0xff8300;
             case 2 :
-                return 0xffa011;
+                return 0xffc700;
+            case 3 :
+                return 0xff6600;
+            case 4 :
+                return 0xf6ff00;
+            case 5 :
+                return 0xc3ff00;
+            case 6 :
+                return 0x00ff00;
             default :
                 return 0x000000;
         }
