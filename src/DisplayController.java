@@ -19,7 +19,6 @@ public class DisplayController {
             displayWidth = display.get_displayWidth();
             displayHeight = display.get_displayHeight();
             displayLayer = display.get_displayLayer(0);
-            displayLayer.selectFont("Large.yfm");
         }catch (Exception e){
             System.out.println(e.getMessage());
         }
@@ -40,7 +39,12 @@ public class DisplayController {
             displayLayer.moveTo(displayWidth - 1, 5);
             displayLayer.lineTo(displayWidth - 1, 0);
             displayLayer.lineTo(displayWidth - 6, 0);
+
+            displayLayer.selectFont("Large.yfm");
             displayLayer.drawText(displayWidth / 2, displayHeight / 2, YDisplayLayer.ALIGN.CENTER, String.valueOf(ph.getItemsOnWeight()));
+
+            displayLayer.selectFont("Small.yfm");
+            displayLayer.drawText(4, displayHeight-4 , YDisplayLayer.ALIGN.BOTTOM_LEFT, String.valueOf(ph.getMilivolt()) + " milivolts");
         }catch (Exception e){
             System.out.println(e.getMessage());
         }

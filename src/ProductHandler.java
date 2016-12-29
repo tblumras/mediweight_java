@@ -16,12 +16,12 @@ public class ProductHandler {
 
         voltRanges = new ArrayList();
 
-        VoltageRange vr1 = new VoltageRange(0.23, 0.33, 1);
-        VoltageRange vr2 = new VoltageRange(0.36, 0.46, 2);
-        VoltageRange vr3 = new VoltageRange(0.49, 0.52, 3);
-        VoltageRange vr4 = new VoltageRange(0.60, 0.65, 4);
-        VoltageRange vr5 = new VoltageRange(0.68, 0.76, 5);
-        VoltageRange vr6 = new VoltageRange(0.80, 0.90, 6);
+        VoltageRange vr1 = new VoltageRange(0.23, 0.350, 1);
+        VoltageRange vr2 = new VoltageRange(0.351, 0.479, 2);
+        VoltageRange vr3 = new VoltageRange(0.480, 0.589, 3);
+        VoltageRange vr4 = new VoltageRange(0.590, 0.689, 4);
+        VoltageRange vr5 = new VoltageRange(0.690, 0.813, 5);
+        VoltageRange vr6 = new VoltageRange(0.814, 0.952, 6);
 
         voltRanges.add(vr1);
         voltRanges.add(vr2);
@@ -33,7 +33,7 @@ public class ProductHandler {
 
     public void setMilivolt(double milivolt){
         this.milivolt = milivolt;
-        //System.out.println("" + milivolt);
+        System.out.println("" + milivolt);
         for(VoltageRange vr : voltRanges){
             if(vr.isInRange(milivolt)){
                 itemOnWeight = vr.getAmount();
@@ -41,7 +41,36 @@ public class ProductHandler {
         }
     }
 
+    public int getColorL1(){
+        switch (itemOnWeight){
+            case 0 :
+                return 0x000000;
+            case 1 :
+                return 0x000000;
+            case 2 :
+                return 0x000000;
+            default :
+                return 0x00ff00;
+        }
+    }
+
+    public int getColorL2(){
+        switch (itemOnWeight){
+            case 0:
+                return 0xff0000;
+            case 1:
+                return 0xff6811;
+            case 2 :
+                return 0xffa011;
+            default :
+                return 0x000000;
+        }
+    }
+
     public int getItemsOnWeight(){
         return itemOnWeight;
+    }
+    public double getMilivolt(){
+        return milivolt;
     }
 }
