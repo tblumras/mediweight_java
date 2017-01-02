@@ -46,8 +46,6 @@ public class EventLoop {
                 ProductHandler ph = wc.getWeight();
                 dc.updateDisplay(ph);
                 lc.updateLed(ph);
-
-
             }else{
                 System.out.println("Sensor is not valid");
             }

@@ -1,4 +1,8 @@
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.Queue;
 
 /**
  * Created by Tina Rasmussen on 28-12-2016.
@@ -8,21 +12,24 @@ public class ProductHandler {
     private double milivolt;
     private int itemOnWeight;
     private ArrayList<VoltageRange> voltRanges;
+    private LinkedList<Integer> readings;
 
 
     public ProductHandler(){
         milivolt = 0.0;
         itemOnWeight = 0;
-
+        readings = new LinkedList();
         voltRanges = new ArrayList();
 
-        VoltageRange vr1 = new VoltageRange(0.23, 0.350, 1);
+        VoltageRange vr0 = new VoltageRange(0.0, 0.229, 0);
+        VoltageRange vr1 = new VoltageRange(0.230, 0.350, 1);
         VoltageRange vr2 = new VoltageRange(0.351, 0.479, 2);
         VoltageRange vr3 = new VoltageRange(0.480, 0.589, 3);
         VoltageRange vr4 = new VoltageRange(0.590, 0.689, 4);
         VoltageRange vr5 = new VoltageRange(0.690, 0.813, 5);
         VoltageRange vr6 = new VoltageRange(0.814, 0.952, 6);
 
+        voltRanges.add(vr0);
         voltRanges.add(vr1);
         voltRanges.add(vr2);
         voltRanges.add(vr3);
@@ -33,10 +40,43 @@ public class ProductHandler {
 
     public void setMilivolt(double milivolt){
         this.milivolt = milivolt;
-        System.out.println("" + milivolt);
         for(VoltageRange vr : voltRanges){
             if(vr.isInRange(milivolt)){
-                itemOnWeight = vr.getAmount();
+                int vrAmount = vr.getAmount();
+                readings.add(vrAmount);
+
+                if(readings.size() > 4){
+                    readings.poll();
+                }
+
+                int[] sortedReadings = new int[readings.size()];
+
+                for(int i = 0; i < sortedReadings.length; i++){
+                    sortedReadings[i] = readings.get(i);
+                }
+
+                Arrays.sort(sortedReadings);
+
+                int[] countedReadings = new int[sortedReadings[sortedReadings.length-1]+1];
+                for(int i = 0; i < countedReadings.length; i++){
+                    countedReadings[i] = 0;
+                }
+
+                for(int i = 0; i < sortedReadings.length; i++){
+                    int value = sortedReadings[i];
+                    countedReadings[value]++;
+                }
+
+                int max = -1;
+                int idx = -1;
+
+                for(int i = 0; i < countedReadings.length; i++){
+                    if(countedReadings[i] > max){
+                        max = countedReadings[i];
+                        idx = i;
+                    }
+                }
+                itemOnWeight = idx;
             }
         }
     }
