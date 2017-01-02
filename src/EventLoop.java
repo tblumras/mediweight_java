@@ -12,6 +12,8 @@ public class EventLoop {
     private WeightController wc;
     private DisplayController dc;
     private LEDController lc;
+    private ServerConnection sc;
+    private ProductHandler ph;
 
 
     public EventLoop(){
@@ -29,6 +31,9 @@ public class EventLoop {
         wc = new WeightController();
         dc = new DisplayController();
         lc = new LEDController();
+        sc = new ServerConnection();
+        ph = new ProductHandler();
+
     }
 
     public void runEvent(boolean startRun) {
@@ -37,15 +42,16 @@ public class EventLoop {
 
         while (isRunning) {
             try {
-                Thread.sleep(TimeUnit.SECONDS.toMillis(2));
+                Thread.sleep(TimeUnit.SECONDS.toMillis(1));
             } catch (Exception e) {
                 System.out.println("Error: " + e.getMessage());
             }
 
             if(wc.isSensorValid()){
-                ProductHandler ph = wc.getWeight();
+                wc.getWeight(ph);
                 dc.updateDisplay(ph);
                 lc.updateLed(ph);
+                sc.updateServer(ph);
             }else{
                 System.out.println("Sensor is not valid");
             }

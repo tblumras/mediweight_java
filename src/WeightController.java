@@ -15,8 +15,7 @@ public class WeightController {
 
     }
 
-    public ProductHandler getWeight(){
-        ProductHandler ph = new ProductHandler();
+    public void getWeight(ProductHandler ph){
         if(isSensorValid()){
             try {
                 ph.setMilivolt(weightSensor.getSignalValue());
@@ -24,7 +23,6 @@ public class WeightController {
                 System.out.println(e.getMessage());
             }
         }
-        return ph;
     }
 
     public boolean isSensorValid(){

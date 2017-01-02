@@ -13,11 +13,13 @@ public class ProductHandler {
     private int itemOnWeight;
     private ArrayList<VoltageRange> voltRanges;
     private LinkedList<Integer> readings;
+    private int lastUpdatedAmount;
 
 
     public ProductHandler(){
         milivolt = 0.0;
         itemOnWeight = 0;
+        lastUpdatedAmount = 0;
         readings = new LinkedList();
         voltRanges = new ArrayList();
 
@@ -27,7 +29,7 @@ public class ProductHandler {
         VoltageRange vr3 = new VoltageRange(0.480, 0.589, 3);
         VoltageRange vr4 = new VoltageRange(0.590, 0.689, 4);
         VoltageRange vr5 = new VoltageRange(0.690, 0.813, 5);
-        VoltageRange vr6 = new VoltageRange(0.814, 0.952, 6);
+        VoltageRange vr6 = new VoltageRange(0.814, 2.0, 6);
 
         voltRanges.add(vr0);
         voltRanges.add(vr1);
@@ -76,6 +78,18 @@ public class ProductHandler {
                         idx = i;
                     }
                 }
+
+                for(int i = 0; i <countedReadings.length; i++){
+                    System.out.print(countedReadings[i] + " ");
+                }
+                System.out.println(" - ");
+
+                for(int i = 0; i <sortedReadings.length; i++){
+                    System.out.print(sortedReadings[i] + " ");
+                }
+                System.out.println("");
+
+
                 itemOnWeight = idx;
             }
         }
@@ -113,6 +127,15 @@ public class ProductHandler {
             default :
                 return 0x000000;
         }
+    }
+
+
+    public boolean shouldUpdateServer(){
+        if(lastUpdatedAmount != itemOnWeight){
+            lastUpdatedAmount = itemOnWeight;
+            return true;
+        }
+        return false;
     }
 
     public int getItemsOnWeight(){
