@@ -6,5 +6,5 @@ public class JsonWrapper {
     public String patientId;
     public String prodId;
     public String instock;
-    public String order;
+    public String amount;
 }

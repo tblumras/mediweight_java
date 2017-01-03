@@ -14,12 +14,14 @@ public class ProductHandler {
     private ArrayList<VoltageRange> voltRanges;
     private LinkedList<Integer> readings;
     private int lastUpdatedAmount;
+    private boolean hasOrdered;
 
 
     public ProductHandler(){
         milivolt = 0.0;
         itemOnWeight = 0;
         lastUpdatedAmount = 0;
+        hasOrdered = true;
         readings = new LinkedList();
         voltRanges = new ArrayList();
 
@@ -79,17 +81,6 @@ public class ProductHandler {
                     }
                 }
 
-                for(int i = 0; i <countedReadings.length; i++){
-                    System.out.print(countedReadings[i] + " ");
-                }
-                System.out.println(" - ");
-
-                for(int i = 0; i <sortedReadings.length; i++){
-                    System.out.print(sortedReadings[i] + " ");
-                }
-                System.out.println("");
-
-
                 itemOnWeight = idx;
             }
         }
@@ -136,6 +127,19 @@ public class ProductHandler {
             return true;
         }
         return false;
+    }
+
+   public boolean shouldOrderFromServer(){
+       if(itemOnWeight <= 2 && !hasOrdered){
+           hasOrdered = true;
+           return true;
+       }
+
+       if(itemOnWeight > 2){
+           hasOrdered = false;
+       }
+
+       return false;
     }
 
     public int getItemsOnWeight(){
